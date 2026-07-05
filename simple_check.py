@@ -90,7 +90,7 @@ def test_get_book_by_id():
  
  
  
-'''
+
 def test_Update_Booking():
     auth={
         "username":"admin",
@@ -107,14 +107,14 @@ def test_Update_Booking():
     },
     "additionalneeds":"Breakfast"
     }
-    url=BASE_URL+END_POINT2+"/"+booking_id
+    END_POINT=END_POINT2+"/"+booking_id
 
-    response=requests.put(url,headers=headers,json=payload,auth=("admin","password123"))
+    response=apiclient.put_user(END_POINT,headers,payload,auth)
     
     assert response.status_code == 200 
     assert response.json()["firstname"] == "ramesh"
 
-'''
+
 
 
 
