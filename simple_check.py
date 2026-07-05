@@ -6,7 +6,6 @@ from api.api_client import apiclient
 END_POINT="/ping"
 END_POINT1="/auth"
 END_POINT2="/booking"
-booking_id=" "
 token=" "
 headers={"Contetnt-Type":"application/json",
             "Accept" : "application/json",
@@ -16,7 +15,7 @@ headers={"Contetnt-Type":"application/json",
 def test_health_checkup():
     
     #url=BASE_URL+END_POINT
-    response=apiclient.check_health(END_POINT)
+    response=apiclient.get_user(END_POINT)
 
    # print(response.json())
 
@@ -44,25 +43,26 @@ print(token)
 def test_Create_booking():
     url=BASE_URL+END_POINT2
     payload={
-    "firstname":"siddesh",
+    "firstname":"siddu",
     "lastname":"hs",
-    "totalprice":500,
-    "depositpaid":True,
+    "totalprice":600,
+    "depositpaid":False,
     "bookingdates":{
-        "checkin":"2026-07-01",
-        "checkout":"2026-07-10"
+        "checkin":"2026-07-04",
+        "checkout":"2026-07-05"
     },
-    "additionalneeds":"Breakfast"
+    "additionalneeds":"Lunch"
     }
     
-    response=apiclient.post_user(END_POINT2,json=payload,headers=headers)
+    response=apiclient.post_user(END_POINT2,payload,headers)
     print(response.json())
 
     assert response.status_code == 200
-#    return response.json()["bookingid"]
-#booking_id=test_Create_booking()
-#booking_id=str(booking_id)
-#print(type(booking_id))
+    return response.json()["bookingid"]
+
+booking_id=test_Create_booking()
+booking_id=str(booking_id)
+print(type(booking_id))
 
 
 def test_booking_id():
@@ -73,18 +73,24 @@ def test_booking_id():
 
     assert response.status_code == 200
 
-'''
+
 def test_get_book_by_id():
-    url=BASE_URL+END_POINT2+"/"+booking_id
+    #url=BASE_URL+END_POINT2+"/"+booking_id
+    END_POINT12=END_POINT2+"/"+booking_id
     
 
-    response=requests.get(url,headers=headers)
+    response=apiclient.get_user_byid(END_POINT12,headers)
     #print(response.json()["bookingid"])
 
-    assert response.json()["firstname"] == "siddesh"
+    assert response.json()["firstname"] == "siddu"
     assert response.json()["lastname"] == "hs"
-    assert response.json()["depositpaid"] == True
+    assert response.json()["depositpaid"] == False
+    #print(response.json()[booking_id])
 
+ 
+ 
+ 
+'''
 def test_Update_Booking():
     auth={
         "username":"admin",
@@ -108,7 +114,7 @@ def test_Update_Booking():
     assert response.status_code == 200 
     assert response.json()["firstname"] == "ramesh"
 
-    '''
+'''
 
 
 
